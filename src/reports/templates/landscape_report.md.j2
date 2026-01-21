@@ -1,0 +1,22 @@
+# Daily AI Landscape Brief
+
+Date: {{ report_date }}
+
+## Summary
+{{ summary }}
+
+## Top Verticals
+{% for vertical_id, score in top_verticals %}
+- {{ vertical_id }}: {{ "%.1f"|format(score) }}
+{% endfor %}
+
+## Top Aspects
+{% for aspect_id, score in top_aspects %}
+- {{ aspect_id }}: {{ "%.1f"|format(score) }}
+{% endfor %}
+
+## Top Companies
+{% for company in top_companies %}
+- {{ company.ticker }} ({{ company.company_id }}): score {{ "%.1f"|format(company.score) }}, change_1d {{ "%.2f"|format(company.change_1d) }}%, news_count {{ company.news_count }}
+{% endfor %}
+

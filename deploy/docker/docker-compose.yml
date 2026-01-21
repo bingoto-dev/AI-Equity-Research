@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  ai-research:
+    build:
+      context: ../..
+      dockerfile: deploy/docker/Dockerfile
+    container_name: ai-equity-research
+    restart: unless-stopped
+    volumes:
+      - research-data:/app/data
+      - ./config/.env:/app/.env:ro
+    environment:
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - DATA_NEWS_API_KEY=${DATA_NEWS_API_KEY:-}
+      - DATA_ALPHA_VANTAGE_KEY=${DATA_ALPHA_VANTAGE_KEY:-}
+      - NOTIFY_SLACK_WEBHOOK_URL=${NOTIFY_SLACK_WEBHOOK_URL:-}
+      - NOTIFY_DISCORD_WEBHOOK_URL=${NOTIFY_DISCORD_WEBHOOK_URL:-}
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # Optional: Run a single analysis
+  ai-research-once:
+    build:
+      context: ../..
+      dockerfile: deploy/docker/Dockerfile
+    container_name: ai-equity-research-once
+    volumes:
+      - research-data:/app/data
+    environment:
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - DATA_NEWS_API_KEY=${DATA_NEWS_API_KEY:-}
+      - DATA_ALPHA_VANTAGE_KEY=${DATA_ALPHA_VANTAGE_KEY:-}
+    command: ["python", "scripts/run_once.py", "--skip-notifications"]
+    profiles:
+      - manual
+
+volumes:
+  research-data:
+    driver: local

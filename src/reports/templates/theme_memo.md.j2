@@ -1,0 +1,54 @@
+# Theme Memo: {{ theme_name }}
+
+Date: {{ date }}
+Aggregate Score: {{ "%.2f"|format(aggregate_score) }}
+
+## Thesis
+{{ thesis }}
+
+## Mechanism
+{{ mechanism }}
+
+## Evidence Pack
+{% for item in evidence %}
+- [{{ item.source_type }}] {{ item.title }} ({{ item.timestamp.strftime("%Y-%m-%d") }}): {{ item.summary }}{% if item.url %} ({{ item.url }}){% endif %}
+{% endfor %}
+
+## First-Order Effects
+{% for item in first_order %}
+- {{ item }}
+{% endfor %}
+
+## Second-Order Effects
+{% for item in second_order %}
+- {{ item }}
+{% endfor %}
+
+## Third-Order Effects
+{% for item in third_order %}
+- {{ item }}
+{% endfor %}
+
+## Catalysts
+{% for item in catalysts %}
+- {{ item }}
+{% endfor %}
+
+## Risks
+{% for item in risks %}
+- {{ item }}
+{% endfor %}
+
+## Top Companies
+{% for item in top_companies %}
+- {{ item.ticker }} ({{ item.company_id }}): score {{ "%.1f"|format(item.score) }}, change_1d {{ "%.2f"|format(item.change_1d) }}%
+{% endfor %}
+
+## Analyst Swarm Scores
+{% for score in scores %}
+- {{ score.role }}: conviction {{ "%.1f"|format(score.conviction) }}, differentiation {{ "%.1f"|format(score.differentiation) }}, magnitude {{ "%.1f"|format(score.magnitude) }}, timing {{ "%.1f"|format(score.timing) }}, reversibility {{ "%.1f"|format(score.reversibility) }}, risk {{ "%.1f"|format(score.risk_awareness) }}, evidence {{ "%.1f"|format(score.evidence_quality) }}, aggregate {{ "%.2f"|format(score.aggregate) }}
+{% endfor %}
+
+## Actionability
+{{ actionability }}
+
