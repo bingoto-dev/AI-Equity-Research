@@ -12,6 +12,7 @@ from apscheduler.triggers.cron import CronTrigger
 from config.settings import get_settings, Settings
 from src.hub.runner import run_daily_landscape
 from scripts.build_hub import build_hub
+from src.swarm.runner import SwarmRunner
 from src.agents.registry import AgentRegistry
 from src.data_sources.registry import create_default_registry
 from src.notifications.discord_notifier import DiscordNotifier
@@ -162,6 +163,19 @@ class ResearchRunner:
 
         except Exception as e:
             logger.error(f"Hub pipeline failed: {e}")
+
+    async def run_swarm_cycle(self) -> None:
+        """Execute a single swarm cycle."""
+        if not self.settings.swarm.enabled:
+            logger.info("Swarm disabled")
+            return
+
+        logger.info("Starting swarm cycle")
+        try:
+            runner = SwarmRunner(self.settings)
+            await runner.run_cycle()
+        except Exception as e:
+            logger.error(f"Swarm cycle failed: {e}")
             raise
 
     async def _send_notifications(
@@ -269,6 +283,30 @@ class ResearchRunner:
 
             logger.info(
                 f"Scheduled hub job: {self.settings.hub.cron_expression} "
+                f"({self.settings.scheduler.timezone})"
+            )
+
+        if self.settings.swarm.enabled:
+            swarm_parts = self.settings.swarm.cron_expression.split()
+            swarm_trigger = CronTrigger(
+                minute=swarm_parts[0] if len(swarm_parts) > 0 else "*",
+                hour=swarm_parts[1] if len(swarm_parts) > 1 else "*",
+                day=swarm_parts[2] if len(swarm_parts) > 2 else "*",
+                month=swarm_parts[3] if len(swarm_parts) > 3 else "*",
+                day_of_week=swarm_parts[4] if len(swarm_parts) > 4 else "*",
+                timezone=self.settings.scheduler.timezone,
+            )
+
+            self._scheduler.add_job(
+                self.run_swarm_cycle,
+                trigger=swarm_trigger,
+                id="swarm_job",
+                name="Swarm Cycle",
+                replace_existing=True,
+            )
+
+            logger.info(
+                f"Scheduled swarm job: {self.settings.swarm.cron_expression} "
                 f"({self.settings.scheduler.timezone})"
             )
 

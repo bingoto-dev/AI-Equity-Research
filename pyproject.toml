@@ -33,6 +33,8 @@ ai-research = "scripts.run_once:main"
 ai-landscape = "scripts.run_hub_daily:main"
 ai-hub-build = "scripts.build_hub:main"
 ai-hub-pipeline = "scripts.run_hub_pipeline:main"
+ai-swarm-cycle = "scripts.run_swarm_cycle:main"
+ai-swarm-loop = "scripts.run_swarm_loop:main"
 
 [build-system]
 requires = ["hatchling"]

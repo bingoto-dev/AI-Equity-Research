@@ -178,6 +178,12 @@ Run the full hub pipeline (landscape + memos + static hub build):
 python scripts/run_hub_pipeline.py
 ```
 
+Run the swarm (planner -> workers -> judge) continuously:
+
+```bash
+python scripts/run_swarm_loop.py
+```
+
 ## Project Structure
 
 ```

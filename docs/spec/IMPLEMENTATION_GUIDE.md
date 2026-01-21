@@ -39,6 +39,13 @@ Run the full pipeline (landscape + memos + static hub build):
 python scripts/run_hub_pipeline.py
 ```
 
+## 2.3) Swarm Loop
+Run the swarm loop continuously (planner -> workers -> judge):
+
+```bash
+python scripts/run_swarm_loop.py
+```
+
 ## 3) Ontology Updates
 - Update `docs/spec/ONTOLOGY_MAPPINGS.json`
 - Validate mappings:

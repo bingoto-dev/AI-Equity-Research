@@ -83,6 +83,22 @@ class HubSettings(BaseSettings):
     hub_output_dir: Path = Field(default=Path("data/hub"), description="Hub output directory")
 
 
+class SwarmSettings(BaseSettings):
+    """Swarm orchestrator settings."""
+
+    model_config = SettingsConfigDict(env_prefix="SWARM_")
+
+    enabled: bool = Field(default=True, description="Enable swarm scheduler")
+    cron_expression: str = Field(
+        default="0 * * * *",
+        description="Cron expression for swarm cycles (default: hourly)",
+    )
+    loop_interval_seconds: int = Field(default=1800, description="Loop sleep interval")
+    hub_interval_minutes: int = Field(default=1440, description="Hub pipeline interval")
+    validate_interval_minutes: int = Field(default=1440, description="Mapping validation interval")
+    export_interval_minutes: int = Field(default=1440, description="Mapping export interval")
+
+
 class LoopSettings(BaseSettings):
     """Convergence loop settings."""
 
@@ -148,6 +164,7 @@ class Settings(BaseSettings):
     notifications: NotificationSettings = Field(default_factory=NotificationSettings)
     scheduler: SchedulerSettings = Field(default_factory=SchedulerSettings)
     hub: HubSettings = Field(default_factory=HubSettings)
+    swarm: SwarmSettings = Field(default_factory=SwarmSettings)
     loop: LoopSettings = Field(default_factory=LoopSettings)
     hierarchical: HierarchicalSettings = Field(default_factory=HierarchicalSettings)
     database: DatabaseSettings = Field(default_factory=DatabaseSettings)
