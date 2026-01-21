@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from datetime import datetime, timedelta
-from typing import Dict, List, Tuple
+from typing import Dict, List, Tuple, Optional
 
 from src.data_sources.aggregator import AggregatedCompanyData
 from src.hub.evidence import EvidenceItem
@@ -18,7 +18,7 @@ class CompanyScore:
     score: float
     change_1d: float
     news_count: int
-    avg_sentiment: float | None
+    avg_sentiment: Optional[float]
 
 
 def _safe_change_1d(aggregated: AggregatedCompanyData) -> float:
@@ -145,4 +145,3 @@ def build_landscape_summary(
         f"Top aspects: {aspect_text}\n"
         f"Top companies: {company_text}"
     )
-

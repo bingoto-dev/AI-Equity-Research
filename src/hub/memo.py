@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Dict, List, Tuple
+from typing import Dict, List, Tuple, Optional
 
 from src.hub.evidence import EvidenceItem
 from src.hub.ontology import OntologyMapping
@@ -106,10 +106,12 @@ def build_theme_memo_context(
     mapping: OntologyMapping,
     company_scores: Dict[str, CompanyScore],
     evidence: List[EvidenceItem],
-    macro_summary: str | None,
+    macro_summary: Optional[str],
     date_str: str,
 ) -> Dict[str, object]:
     theme_name = theme_id
+    verticals = mapping.get_theme_verticals(theme_id)
+    aspects = mapping.get_theme_aspects(theme_id)
     theme_companies = mapping.get_theme_companies(theme_id)
     ranked_companies: List[Tuple[str, float]] = []
     for company_id, exposure in theme_companies:
@@ -147,11 +149,20 @@ def build_theme_memo_context(
         for item in top_companies
     ]
     second_order = [
-        f"Spillover to verticals: {', '.join(mapping.get_theme_verticals(theme_id)) or 'N/A'}."
+        f"Spillover to verticals: {', '.join(verticals) or 'N/A'}."
     ]
     third_order = [
         f"Macro and policy effects: {macro_summary or 'Limited macro linkage detected in current data.'}"
     ]
+
+    causal_chain = []
+    for vertical in verticals or ["N/A"]:
+        for aspect in aspects or ["N/A"]:
+            causal_chain.append(f"{theme_id} -> {vertical} -> {aspect}")
+            if len(causal_chain) >= 5:
+                break
+        if len(causal_chain) >= 5:
+            break
 
     risks = [
         "Demand normalization after near-term pull-forward.",
@@ -170,12 +181,15 @@ def build_theme_memo_context(
         "theme_id": theme_id,
         "theme_name": theme_name,
         "date": date_str,
+        "verticals": verticals,
+        "aspects": aspects,
         "thesis": thesis,
         "mechanism": mechanism,
         "evidence": evidence[:10],
         "first_order": first_order,
         "second_order": second_order,
         "third_order": third_order,
+        "causal_chain": causal_chain,
         "catalysts": catalysts or ["No near-term catalysts detected"],
         "risks": risks,
         "top_companies": top_companies,
@@ -184,4 +198,3 @@ def build_theme_memo_context(
         "scores": scores,
         "aggregate_score": aggregate_score,
     }
-

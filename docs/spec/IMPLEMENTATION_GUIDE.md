@@ -39,6 +39,14 @@ Run the full pipeline (landscape + memos + static hub build):
 python scripts/run_hub_pipeline.py
 ```
 
+## 2.3) LLM Scoring (Optional)
+Enable analyst swarm scoring with an LLM by setting:
+
+```
+HUB_USE_LLM_SCORING=true
+ANTHROPIC_API_KEY=...
+```
+
 ## 2.3) Swarm Loop
 Run the swarm loop continuously (planner -> workers -> judge):
 

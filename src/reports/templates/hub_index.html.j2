@@ -33,6 +33,22 @@
       margin: 0;
       color: var(--muted);
     }
+    .filters {
+      display: flex;
+      gap: 12px;
+      margin: 16px 0 24px;
+      flex-wrap: wrap;
+    }
+    .filters input,
+    .filters select {
+      background: #0f1822;
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 8px 12px;
+      border-radius: 10px;
+      font-size: 14px;
+      min-width: 180px;
+    }
     main {
       display: grid;
       grid-template-columns: 1.2fr 0.8fr;
@@ -73,6 +89,11 @@
       padding: 2px 8px;
       border-radius: 999px;
       font-size: 12px;
+    }
+    .delta {
+      font-size: 12px;
+      color: var(--muted);
+      margin-left: 6px;
     }
     .memo-link {
       display: flex;
@@ -126,13 +147,25 @@
     <h1>Deep Insights Hub</h1>
     <p>Daily AI landscape brief and top-scoring thematic memos</p>
     <p class="muted">Date: {{ report_date }}</p>
+    {% if prev_date %}
+    <p class="muted">Comparison baseline: {{ prev_date }}</p>
+    {% endif %}
   </header>
   <main>
     <section>
       <h2>Top Memos</h2>
+      <div class="filters">
+        <input id="memoSearch" type="search" placeholder="Search memos">
+        <select id="verticalFilter">
+          <option value="">All verticals</option>
+        </select>
+        <select id="aspectFilter">
+          <option value="">All aspects</option>
+        </select>
+      </div>
       <ul class="memo-list">
         {% for memo in memos %}
-        <li>
+        <li class="memo-item" data-theme="{{ memo.theme_id }}" data-verticals="{{ memo.verticals|join(',') }}" data-aspects="{{ memo.aspects|join(',') }}">
           <a class="memo-link" href="{{ memo.link }}">
             <div>
               <div>{{ memo.theme_id }}</div>
@@ -150,23 +183,106 @@
         <div class="card">
           <h3>Verticals</h3>
           {% for item in top_verticals %}
-          <p>{{ item.id }} <span class="pill">{{ "%.1f"|format(item.score) }}</span></p>
+          <p>{{ item.id }} <span class="pill">{{ "%.1f"|format(item.score) }}</span>
+            {% if item.delta is defined %}
+              {% if item.delta > 0 %}
+                <span class="delta">▲ {{ item.delta }}</span>
+              {% elif item.delta < 0 %}
+                <span class="delta">▼ {{ item.delta|abs }}</span>
+              {% else %}
+                <span class="delta">• 0</span>
+              {% endif %}
+            {% endif %}
+          </p>
           {% endfor %}
         </div>
         <div class="card">
           <h3>Aspects</h3>
           {% for item in top_aspects %}
-          <p>{{ item.id }} <span class="pill">{{ "%.1f"|format(item.score) }}</span></p>
+          <p>{{ item.id }} <span class="pill">{{ "%.1f"|format(item.score) }}</span>
+            {% if item.delta is defined %}
+              {% if item.delta > 0 %}
+                <span class="delta">▲ {{ item.delta }}</span>
+              {% elif item.delta < 0 %}
+                <span class="delta">▼ {{ item.delta|abs }}</span>
+              {% else %}
+                <span class="delta">• 0</span>
+              {% endif %}
+            {% endif %}
+          </p>
           {% endfor %}
         </div>
         <div class="card">
           <h3>Companies</h3>
           {% for item in top_companies %}
-          <p>{{ item.ticker }} <span class="pill">{{ "%.1f"|format(item.score) }}</span></p>
+          <p>{{ item.ticker }} <span class="pill">{{ "%.1f"|format(item.score) }}</span>
+            {% if item.delta is defined %}
+              {% if item.delta > 0 %}
+                <span class="delta">▲ {{ item.delta }}</span>
+              {% elif item.delta < 0 %}
+                <span class="delta">▼ {{ item.delta|abs }}</span>
+              {% else %}
+                <span class="delta">• 0</span>
+              {% endif %}
+            {% endif %}
+          </p>
           {% endfor %}
         </div>
       </div>
     </section>
   </main>
+  <script>
+    const memoItems = Array.from(document.querySelectorAll('.memo-item'));
+    const searchInput = document.getElementById('memoSearch');
+    const verticalFilter = document.getElementById('verticalFilter');
+    const aspectFilter = document.getElementById('aspectFilter');
+
+    const verticalSet = new Set();
+    const aspectSet = new Set();
+
+    memoItems.forEach(item => {
+      const verticals = item.dataset.verticals ? item.dataset.verticals.split(',') : [];
+      const aspects = item.dataset.aspects ? item.dataset.aspects.split(',') : [];
+      verticals.filter(Boolean).forEach(v => verticalSet.add(v));
+      aspects.filter(Boolean).forEach(a => aspectSet.add(a));
+    });
+
+    Array.from(verticalSet).sort().forEach(v => {
+      const opt = document.createElement('option');
+      opt.value = v;
+      opt.textContent = v;
+      verticalFilter.appendChild(opt);
+    });
+
+    Array.from(aspectSet).sort().forEach(a => {
+      const opt = document.createElement('option');
+      opt.value = a;
+      opt.textContent = a;
+      aspectFilter.appendChild(opt);
+    });
+
+    function applyFilters() {
+      const query = (searchInput.value || '').toLowerCase();
+      const vert = verticalFilter.value;
+      const asp = aspectFilter.value;
+
+      memoItems.forEach(item => {
+        const theme = item.dataset.theme.toLowerCase();
+        const summary = item.querySelector('.muted')?.textContent?.toLowerCase() || '';
+        const verticals = item.dataset.verticals ? item.dataset.verticals.split(',') : [];
+        const aspects = item.dataset.aspects ? item.dataset.aspects.split(',') : [];
+
+        const matchesQuery = !query || theme.includes(query) || summary.includes(query);
+        const matchesVert = !vert || verticals.includes(vert);
+        const matchesAsp = !asp || aspects.includes(asp);
+
+        item.style.display = (matchesQuery && matchesVert && matchesAsp) ? '' : 'none';
+      });
+    }
+
+    searchInput.addEventListener('input', applyFilters);
+    verticalFilter.addEventListener('change', applyFilters);
+    aspectFilter.addEventListener('change', applyFilters);
+  </script>
 </body>
 </html>

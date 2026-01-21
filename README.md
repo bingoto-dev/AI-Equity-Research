@@ -184,6 +184,9 @@ Run the swarm (planner -> workers -> judge) continuously:
 python scripts/run_swarm_loop.py
 ```
 
+Optional LLM scoring:
+- Set `HUB_USE_LLM_SCORING=true` and `ANTHROPIC_API_KEY` in `.env`
+
 ## Project Structure
 
 ```

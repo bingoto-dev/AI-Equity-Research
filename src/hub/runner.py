@@ -7,11 +7,11 @@ import json
 import logging
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List
+from typing import Dict, List, Optional
 
 from jinja2 import Environment, FileSystemLoader
 
-from config.settings import DataSourceSettings
+from config.settings import get_settings
 from src.data_sources.aggregator import DataAggregator
 from src.data_sources.base import DataSourceType
 from src.data_sources.registry import create_enhanced_registry
@@ -26,12 +26,13 @@ from src.hub.landscape import (
     rank_items,
 )
 from src.hub.memo import build_theme_memo_context
+from src.hub.swarm_scoring import score_memo_swarm
 from src.hub.ontology import OntologyMapping
 
 logger = logging.getLogger(__name__)
 
 
-async def _load_macro_summary(registry) -> str | None:
+async def _load_macro_summary(registry) -> Optional[str]:
     source = registry.get(DataSourceType.ECONOMIC)
     if not source:
         return None
@@ -54,7 +55,8 @@ async def run_daily_landscape(
     Returns:
         Dict with output paths
     """
-    data_settings = DataSourceSettings()
+    settings = get_settings()
+    data_settings = settings.data_sources
     registry = create_enhanced_registry(
         news_api_key=(
             data_settings.news_api_key.get_secret_value() if data_settings.news_api_key else None
@@ -166,6 +168,17 @@ async def run_daily_landscape(
                 date_str=date_str,
             )
 
+            memo_text_for_scoring = memo_template.render(**memo_context)
+            swarm_scores = await score_memo_swarm(
+                settings=settings,
+                memo_text=memo_text_for_scoring,
+                fallback_evidence_count=len(theme_evidence),
+                catalysts_count=len(memo_context.get("catalysts", [])),
+            )
+            if swarm_scores:
+                memo_context["scores"] = swarm_scores
+                memo_context["aggregate_score"] = sum(s.aggregate for s in swarm_scores) / len(swarm_scores)
+
             memo_content = memo_template.render(**memo_context)
             memo_path = memo_dir / f"{theme_id}_{date_str}.md"
             with open(memo_path, "w", encoding="utf-8") as handle:
@@ -177,6 +190,8 @@ async def run_daily_landscape(
                 "aggregate_score": memo_context["aggregate_score"],
                 "summary": memo_context["thesis"],
                 "path": str(memo_path),
+                "verticals": memo_context.get("verticals", []),
+                "aspects": memo_context.get("aspects", []),
                 "top_companies": memo_context["top_companies"],
             })
 

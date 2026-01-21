@@ -6,7 +6,7 @@ import asyncio
 import logging
 from datetime import datetime
 from pathlib import Path
-from typing import Dict
+from typing import Dict, Optional
 
 from config.settings import Settings
 from src.swarm.judge import finalize_task
@@ -20,7 +20,7 @@ logger = logging.getLogger(__name__)
 class SwarmRunner:
     """Run a single swarm cycle."""
 
-    def __init__(self, settings: Settings, state_path: Path | None = None):
+    def __init__(self, settings: Settings, state_path: Optional[Path] = None):
         self.settings = settings
         self.state_path = state_path or Path("data/swarm/state.json")
         self.store = SwarmStateStore(self.state_path)

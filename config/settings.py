@@ -75,6 +75,7 @@ class HubSettings(BaseSettings):
     top_companies: int = Field(default=10, description="Top companies to rank")
     include_memos: bool = Field(default=True, description="Generate memos")
     build_static: bool = Field(default=True, description="Build static hub UI")
+    use_llm_scoring: bool = Field(default=True, description="Use LLM analyst swarm scoring")
     mappings_path: Path = Field(
         default=Path("docs/spec/ONTOLOGY_MAPPINGS.json"),
         description="Ontology mappings JSON path",
