@@ -163,6 +163,15 @@ Outputs:
 - `data/reports/landscape_YYYY-MM-DD.md`
 - `data/reports/memos/<theme_id>_YYYY-MM-DD.md`
 
+Build the static hub UI:
+
+```bash
+python scripts/build_hub.py
+python -m http.server --directory data/hub 8000
+```
+
+Open: http://localhost:8000
+
 ## Project Structure
 
 ```

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ theme_id }} Memo</title>
+  <style>
+    :root {
+      --bg: #0e141b;
+      --panel: #141d26;
+      --text: #e6edf3;
+      --muted: #9bb0c1;
+      --accent: #4fd1c5;
+      --border: #243140;
+    }
+    body {
+      margin: 0;
+      font-family: "Space Grotesk", "IBM Plex Sans", sans-serif;
+      background: radial-gradient(circle at top, #1a2432, #0e141b 60%);
+      color: var(--text);
+    }
+    header {
+      padding: 32px 48px;
+      border-bottom: 1px solid var(--border);
+    }
+    header a {
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 14px;
+    }
+    header h1 {
+      margin: 12px 0 6px 0;
+      font-size: 24px;
+    }
+    header p {
+      margin: 0;
+      color: var(--muted);
+    }
+    main {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 32px 24px 64px;
+      line-height: 1.7;
+    }
+    .content {
+      background: var(--panel);
+      padding: 28px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+    }
+    .meta {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+      color: var(--muted);
+    }
+    .meta span {
+      background: rgba(79, 209, 197, 0.12);
+      padding: 4px 10px;
+      border-radius: 999px;
+      color: var(--accent);
+    }
+    h2 {
+      margin-top: 24px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 6px;
+    }
+    a {
+      color: var(--accent);
+    }
+    pre {
+      background: #0f1822;
+      padding: 12px;
+      border-radius: 8px;
+      overflow-x: auto;
+    }
+    @media (max-width: 760px) {
+      header {
+        padding: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="../index.html">← Back to Hub</a>
+    <h1>{{ theme_id }} Memo</h1>
+    <p>Date: {{ date }}</p>
+  </header>
+  <main>
+    <div class="content">
+      <div class="meta">
+        <span>Aggregate Score: {{ "%.2f"|format(aggregate_score) }}</span>
+        <span>Top Companies: {{ top_companies|length }}</span>
+      </div>
+      {{ memo_html | safe }}
+    </div>
+  </main>
+</body>
+</html>

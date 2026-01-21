@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import asyncio
+import json
 import logging
 from datetime import datetime
 from pathlib import Path
@@ -120,9 +121,30 @@ async def run_daily_landscape(
     with open(landscape_path, "w", encoding="utf-8") as handle:
         handle.write(landscape_content)
 
+    landscape_json = {
+        "date": date_str,
+        "summary": summary_text,
+        "top_verticals": [{"id": vid, "score": score} for vid, score in top_verticals],
+        "top_aspects": [{"id": aid, "score": score} for aid, score in top_aspects],
+        "top_companies": [
+            {
+                "company_id": item.company_id,
+                "ticker": item.ticker,
+                "score": item.score,
+                "change_1d": item.change_1d,
+                "news_count": item.news_count,
+            }
+            for item in top_company_scores
+        ],
+    }
+    landscape_json_path = output_dir / f"landscape_{date_str}.json"
+    with open(landscape_json_path, "w", encoding="utf-8") as handle:
+        json.dump(landscape_json, handle, indent=2)
+
     memo_paths: List[str] = []
     macro_summary = await _load_macro_summary(registry)
 
+    memo_index: List[Dict[str, object]] = []
     if include_memos:
         memo_template = env.get_template("theme_memo.md.j2")
         memo_dir = output_dir / "memos"
@@ -149,6 +171,18 @@ async def run_daily_landscape(
             with open(memo_path, "w", encoding="utf-8") as handle:
                 handle.write(memo_content)
             memo_paths.append(str(memo_path))
+
+            memo_index.append({
+                "theme_id": theme_id,
+                "aggregate_score": memo_context["aggregate_score"],
+                "summary": memo_context["thesis"],
+                "path": str(memo_path),
+                "top_companies": memo_context["top_companies"],
+            })
+
+    memos_json_path = output_dir / f"memos_{date_str}.json"
+    with open(memos_json_path, "w", encoding="utf-8") as handle:
+        json.dump({"memos": memo_index}, handle, indent=2)
 
     await registry.close_all()
 

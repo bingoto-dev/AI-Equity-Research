@@ -19,6 +19,18 @@ python scripts/run_hub_daily.py
 Outputs:
 - `data/reports/landscape_YYYY-MM-DD.md`
 - `data/reports/memos/<theme_id>_YYYY-MM-DD.md`
+- `data/reports/landscape_YYYY-MM-DD.json`
+- `data/reports/memos_YYYY-MM-DD.json`
+
+## 2.1) Hub UI (Static)
+Build the static hub UI from the JSON outputs:
+
+```bash
+python scripts/build_hub.py
+python -m http.server --directory data/hub 8000
+```
+
+Open: http://localhost:8000
 
 ## 3) Ontology Updates
 - Update `docs/spec/ONTOLOGY_MAPPINGS.json`
@@ -38,4 +50,3 @@ python scripts/export_ontology_mappings_csv.py docs/spec/ONTOLOGY_MAPPINGS.json 
 - Daily run before market open (default 6 AM ET)
 - Weekly mapping review for top themes
 - Monthly ontology review
-
