@@ -10,6 +10,8 @@ from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.triggers.cron import CronTrigger
 
 from config.settings import get_settings, Settings
+from src.hub.runner import run_daily_landscape
+from scripts.build_hub import build_hub
 from src.agents.registry import AgentRegistry
 from src.data_sources.registry import create_default_registry
 from src.notifications.discord_notifier import DiscordNotifier
@@ -128,6 +130,38 @@ class ResearchRunner:
         except Exception as e:
             logger.error(f"Research run failed: {e}")
             await self._send_error_notifications(str(e))
+
+    async def run_hub(self) -> None:
+        """Execute hub pipeline: landscape + memos + static hub build."""
+        if not self.settings.hub.enabled:
+            logger.info("Hub pipeline disabled")
+            return
+
+        logger.info("Starting hub pipeline run")
+        try:
+            outputs = await run_daily_landscape(
+                mappings_path=self.settings.hub.mappings_path,
+                output_dir=self.settings.hub.output_dir,
+                templates_dir=self.settings.templates_dir,
+                top_themes=self.settings.hub.top_themes,
+                top_companies=self.settings.hub.top_companies,
+                include_memos=self.settings.hub.include_memos,
+            )
+
+            logger.info("Hub pipeline outputs: %s", outputs)
+
+            if self.settings.hub.build_static:
+                date_str = datetime.utcnow().strftime("%Y-%m-%d")
+                build_hub(
+                    report_date=date_str,
+                    reports_dir=self.settings.hub.output_dir,
+                    templates_dir=self.settings.templates_dir,
+                    output_dir=self.settings.hub.hub_output_dir,
+                )
+                logger.info("Hub UI built")
+
+        except Exception as e:
+            logger.error(f"Hub pipeline failed: {e}")
             raise
 
     async def _send_notifications(
@@ -213,6 +247,30 @@ class ResearchRunner:
             name="AI Equity Research",
             replace_existing=True,
         )
+
+        if self.settings.hub.enabled:
+            hub_parts = self.settings.hub.cron_expression.split()
+            hub_trigger = CronTrigger(
+                minute=hub_parts[0] if len(hub_parts) > 0 else "*",
+                hour=hub_parts[1] if len(hub_parts) > 1 else "*",
+                day=hub_parts[2] if len(hub_parts) > 2 else "*",
+                month=hub_parts[3] if len(hub_parts) > 3 else "*",
+                day_of_week=hub_parts[4] if len(hub_parts) > 4 else "*",
+                timezone=self.settings.scheduler.timezone,
+            )
+
+            self._scheduler.add_job(
+                self.run_hub,
+                trigger=hub_trigger,
+                id="hub_job",
+                name="Hub Pipeline",
+                replace_existing=True,
+            )
+
+            logger.info(
+                f"Scheduled hub job: {self.settings.hub.cron_expression} "
+                f"({self.settings.scheduler.timezone})"
+            )
 
         logger.info(
             f"Scheduled research job: {self.settings.scheduler.cron_expression} "

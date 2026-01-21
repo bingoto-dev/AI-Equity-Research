@@ -32,6 +32,13 @@ python -m http.server --directory data/hub 8000
 
 Open: http://localhost:8000
 
+## 2.2) Full Hub Pipeline
+Run the full pipeline (landscape + memos + static hub build):
+
+```bash
+python scripts/run_hub_pipeline.py
+```
+
 ## 3) Ontology Updates
 - Update `docs/spec/ONTOLOGY_MAPPINGS.json`
 - Validate mappings:

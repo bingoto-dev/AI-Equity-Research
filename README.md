@@ -172,6 +172,12 @@ python -m http.server --directory data/hub 8000
 
 Open: http://localhost:8000
 
+Run the full hub pipeline (landscape + memos + static hub build):
+
+```bash
+python scripts/run_hub_pipeline.py
+```
+
 ## Project Structure
 
 ```

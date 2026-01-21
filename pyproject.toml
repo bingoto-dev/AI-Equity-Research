@@ -32,6 +32,7 @@ dev = [
 ai-research = "scripts.run_once:main"
 ai-landscape = "scripts.run_hub_daily:main"
 ai-hub-build = "scripts.build_hub:main"
+ai-hub-pipeline = "scripts.run_hub_pipeline:main"
 
 [build-system]
 requires = ["hatchling"]

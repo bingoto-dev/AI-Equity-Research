@@ -34,6 +34,8 @@ class LLMClient:
         Args:
             settings: Anthropic API settings
         """
+        if not settings.api_key:
+            raise ValueError("Anthropic API key is required to use the LLM client")
         self.settings = settings
         self._client = anthropic.Anthropic(
             api_key=settings.api_key.get_secret_value(),

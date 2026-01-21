@@ -12,7 +12,7 @@ class AnthropicSettings(BaseSettings):
 
     model_config = SettingsConfigDict(env_prefix="ANTHROPIC_")
 
-    api_key: SecretStr = Field(..., description="Anthropic API key")
+    api_key: Optional[SecretStr] = Field(default=None, description="Anthropic API key")
     model: str = Field(default="claude-sonnet-4-20250514", description="Model to use")
     max_tokens: int = Field(default=4096, description="Max tokens per response")
     temperature: float = Field(default=0.7, description="Temperature for generation")
@@ -59,6 +59,28 @@ class SchedulerSettings(BaseSettings):
         description="Cron expression for scheduling (default: 6 AM weekdays)",
     )
     timezone: str = Field(default="America/New_York", description="Timezone for scheduler")
+
+
+class HubSettings(BaseSettings):
+    """Hub pipeline settings."""
+
+    model_config = SettingsConfigDict(env_prefix="HUB_")
+
+    enabled: bool = Field(default=True, description="Enable hub pipeline scheduling")
+    cron_expression: str = Field(
+        default="30 6 * * 1-5",
+        description="Cron expression for hub pipeline (default: 6:30 AM weekdays)",
+    )
+    top_themes: int = Field(default=5, description="Top themes to memo")
+    top_companies: int = Field(default=10, description="Top companies to rank")
+    include_memos: bool = Field(default=True, description="Generate memos")
+    build_static: bool = Field(default=True, description="Build static hub UI")
+    mappings_path: Path = Field(
+        default=Path("docs/spec/ONTOLOGY_MAPPINGS.json"),
+        description="Ontology mappings JSON path",
+    )
+    output_dir: Path = Field(default=Path("data/reports"), description="Reports output directory")
+    hub_output_dir: Path = Field(default=Path("data/hub"), description="Hub output directory")
 
 
 class LoopSettings(BaseSettings):
@@ -125,6 +147,7 @@ class Settings(BaseSettings):
     data_sources: DataSourceSettings = Field(default_factory=DataSourceSettings)
     notifications: NotificationSettings = Field(default_factory=NotificationSettings)
     scheduler: SchedulerSettings = Field(default_factory=SchedulerSettings)
+    hub: HubSettings = Field(default_factory=HubSettings)
     loop: LoopSettings = Field(default_factory=LoopSettings)
     hierarchical: HierarchicalSettings = Field(default_factory=HierarchicalSettings)
     database: DatabaseSettings = Field(default_factory=DatabaseSettings)
