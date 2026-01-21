@@ -36,6 +36,7 @@ Provide a stable, versioned taxonomy for themes, verticals, aspects, and entitie
 - THM-ai-foundation-models
 - THM-ai-mlops
 - THM-ai-edge
+- THM-ai-applications
 
 ### AI Adoption by Industry
 - THM-ai-healthcare

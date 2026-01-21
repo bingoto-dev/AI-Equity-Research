@@ -1,0 +1,362 @@
+{
+  "metadata": {
+    "ontology_version": "v0",
+    "mapping_version": "v0.1",
+    "owner": "research_ops",
+    "update_cadence": "monthly_or_on_major_theme_shifts"
+  },
+  "id_sets": {
+    "themes": [
+      "THM-ai-compute",
+      "THM-ai-infrastructure",
+      "THM-ai-foundation-models",
+      "THM-ai-mlops",
+      "THM-ai-edge",
+      "THM-ai-applications",
+      "THM-ai-healthcare",
+      "THM-ai-finance",
+      "THM-ai-manufacturing",
+      "THM-ai-retail",
+      "THM-ai-public-sector",
+      "THM-ai-capex-cycle",
+      "THM-ai-energy-demand",
+      "THM-ai-regulatory-risk"
+    ],
+    "verticals": [
+      "VRT-compute-semiconductors",
+      "VRT-hyperscalers-cloud",
+      "VRT-data-platforms",
+      "VRT-model-providers",
+      "VRT-mlops-tooling",
+      "VRT-edge-devices",
+      "VRT-applications",
+      "VRT-cybersecurity-safety",
+      "VRT-robotics-automation",
+      "VRT-networking-interconnect"
+    ],
+    "aspects": [
+      "ASP-compute-efficiency",
+      "ASP-inference-cost",
+      "ASP-data-quality",
+      "ASP-model-performance",
+      "ASP-distribution",
+      "ASP-regulation-policy",
+      "ASP-capital-intensity",
+      "ASP-supply-chain-constraints",
+      "ASP-competitive-moat",
+      "ASP-talent-signals"
+    ],
+    "companies": [
+      "CMP-NVDA",
+      "CMP-AMD",
+      "CMP-TSM",
+      "CMP-ASML",
+      "CMP-MSFT",
+      "CMP-AMZN",
+      "CMP-GOOGL",
+      "CMP-OPENAI",
+      "CMP-SNOW",
+      "CMP-AAPL",
+      "CMP-META",
+      "CMP-AVGO",
+      "CMP-ADBE"
+    ]
+  },
+  "theme_vertical_aspect": [
+    {
+      "theme_id": "THM-ai-compute",
+      "vertical_id": "VRT-compute-semiconductors",
+      "aspect_id": "ASP-compute-efficiency",
+      "rationale": "Perf per watt and scaling constraints"
+    },
+    {
+      "theme_id": "THM-ai-compute",
+      "vertical_id": "VRT-networking-interconnect",
+      "aspect_id": "ASP-capital-intensity",
+      "rationale": "Cluster capex and networking bottlenecks"
+    },
+    {
+      "theme_id": "THM-ai-infrastructure",
+      "vertical_id": "VRT-hyperscalers-cloud",
+      "aspect_id": "ASP-inference-cost",
+      "rationale": "Unit economics of AI workloads"
+    },
+    {
+      "theme_id": "THM-ai-infrastructure",
+      "vertical_id": "VRT-data-platforms",
+      "aspect_id": "ASP-data-quality",
+      "rationale": "Data pipelines as core input"
+    },
+    {
+      "theme_id": "THM-ai-foundation-models",
+      "vertical_id": "VRT-model-providers",
+      "aspect_id": "ASP-model-performance",
+      "rationale": "Frontier model progress"
+    },
+    {
+      "theme_id": "THM-ai-mlops",
+      "vertical_id": "VRT-mlops-tooling",
+      "aspect_id": "ASP-distribution",
+      "rationale": "Deployment and lifecycle tooling"
+    },
+    {
+      "theme_id": "THM-ai-edge",
+      "vertical_id": "VRT-edge-devices",
+      "aspect_id": "ASP-compute-efficiency",
+      "rationale": "On-device inference constraints"
+    },
+    {
+      "theme_id": "THM-ai-applications",
+      "vertical_id": "VRT-applications",
+      "aspect_id": "ASP-competitive-moat",
+      "rationale": "Workflow lock-in and data flywheel"
+    },
+    {
+      "theme_id": "THM-ai-regulatory-risk",
+      "vertical_id": "VRT-cybersecurity-safety",
+      "aspect_id": "ASP-regulation-policy",
+      "rationale": "Policy headwinds or tailwinds"
+    },
+    {
+      "theme_id": "THM-ai-capex-cycle",
+      "vertical_id": "VRT-hyperscalers-cloud",
+      "aspect_id": "ASP-capital-intensity",
+      "rationale": "Hyperscaler capex cycles"
+    },
+    {
+      "theme_id": "THM-ai-energy-demand",
+      "vertical_id": "VRT-compute-semiconductors",
+      "aspect_id": "ASP-supply-chain-constraints",
+      "rationale": "Power limits and lead times"
+    }
+  ],
+  "theme_company_exposure": [
+    {
+      "theme_id": "THM-ai-compute",
+      "company_id": "CMP-NVDA",
+      "exposure_strength": 0.9,
+      "evidence_required": "GPU revenue mix, datacenter segment growth"
+    },
+    {
+      "theme_id": "THM-ai-compute",
+      "company_id": "CMP-AMD",
+      "exposure_strength": 0.6,
+      "evidence_required": "AI accelerator roadmap, DC revenue split"
+    },
+    {
+      "theme_id": "THM-ai-compute",
+      "company_id": "CMP-TSM",
+      "exposure_strength": 0.8,
+      "evidence_required": "Advanced node utilization and AI demand"
+    },
+    {
+      "theme_id": "THM-ai-compute",
+      "company_id": "CMP-ASML",
+      "exposure_strength": 0.7,
+      "evidence_required": "EUV demand and foundry capex signals"
+    },
+    {
+      "theme_id": "THM-ai-infrastructure",
+      "company_id": "CMP-MSFT",
+      "exposure_strength": 0.8,
+      "evidence_required": "Azure AI workload share and capex"
+    },
+    {
+      "theme_id": "THM-ai-infrastructure",
+      "company_id": "CMP-AMZN",
+      "exposure_strength": 0.7,
+      "evidence_required": "AWS AI workload growth"
+    },
+    {
+      "theme_id": "THM-ai-infrastructure",
+      "company_id": "CMP-GOOGL",
+      "exposure_strength": 0.7,
+      "evidence_required": "GCP AI workload growth"
+    },
+    {
+      "theme_id": "THM-ai-foundation-models",
+      "company_id": "CMP-OPENAI",
+      "exposure_strength": 0.8,
+      "evidence_required": "Model releases and usage metrics"
+    },
+    {
+      "theme_id": "THM-ai-mlops",
+      "company_id": "CMP-SNOW",
+      "exposure_strength": 0.5,
+      "evidence_required": "MLOps adoption metrics"
+    },
+    {
+      "theme_id": "THM-ai-edge",
+      "company_id": "CMP-AAPL",
+      "exposure_strength": 0.5,
+      "evidence_required": "On-device inference features"
+    },
+    {
+      "theme_id": "THM-ai-applications",
+      "company_id": "CMP-META",
+      "exposure_strength": 0.6,
+      "evidence_required": "AI feature usage and engagement impact"
+    }
+  ],
+  "vertical_company_exposure": [
+    {
+      "vertical_id": "VRT-compute-semiconductors",
+      "company_id": "CMP-NVDA",
+      "exposure_strength": 0.9,
+      "evidence_required": "Datacenter GPU share and pricing power"
+    },
+    {
+      "vertical_id": "VRT-compute-semiconductors",
+      "company_id": "CMP-TSM",
+      "exposure_strength": 0.8,
+      "evidence_required": "AI node demand and capacity"
+    },
+    {
+      "vertical_id": "VRT-networking-interconnect",
+      "company_id": "CMP-AVGO",
+      "exposure_strength": 0.6,
+      "evidence_required": "Networking silicon demand"
+    },
+    {
+      "vertical_id": "VRT-hyperscalers-cloud",
+      "company_id": "CMP-MSFT",
+      "exposure_strength": 0.8,
+      "evidence_required": "AI capex and utilization"
+    },
+    {
+      "vertical_id": "VRT-hyperscalers-cloud",
+      "company_id": "CMP-AMZN",
+      "exposure_strength": 0.7,
+      "evidence_required": "AI service revenue mix"
+    },
+    {
+      "vertical_id": "VRT-model-providers",
+      "company_id": "CMP-OPENAI",
+      "exposure_strength": 0.8,
+      "evidence_required": "Model launches and usage"
+    },
+    {
+      "vertical_id": "VRT-mlops-tooling",
+      "company_id": "CMP-SNOW",
+      "exposure_strength": 0.5,
+      "evidence_required": "Tool adoption and enterprise spend"
+    },
+    {
+      "vertical_id": "VRT-edge-devices",
+      "company_id": "CMP-AAPL",
+      "exposure_strength": 0.6,
+      "evidence_required": "On-device AI feature rollout"
+    },
+    {
+      "vertical_id": "VRT-applications",
+      "company_id": "CMP-ADBE",
+      "exposure_strength": 0.6,
+      "evidence_required": "AI feature monetization"
+    }
+  ],
+  "aspect_theme_weighting": [
+    {
+      "aspect_id": "ASP-compute-efficiency",
+      "theme_id": "THM-ai-compute",
+      "weight": 0.35,
+      "notes": "Perf per watt drives scaling"
+    },
+    {
+      "aspect_id": "ASP-inference-cost",
+      "theme_id": "THM-ai-infrastructure",
+      "weight": 0.25,
+      "notes": "Unit economics gating adoption"
+    },
+    {
+      "aspect_id": "ASP-data-quality",
+      "theme_id": "THM-ai-infrastructure",
+      "weight": 0.2,
+      "notes": "Data gravity limits"
+    },
+    {
+      "aspect_id": "ASP-regulation-policy",
+      "theme_id": "THM-ai-regulatory-risk",
+      "weight": 0.5,
+      "notes": "Policy risk dominates"
+    },
+    {
+      "aspect_id": "ASP-capital-intensity",
+      "theme_id": "THM-ai-capex-cycle",
+      "weight": 0.4,
+      "notes": "Capex cycles drive supply"
+    },
+    {
+      "aspect_id": "ASP-supply-chain-constraints",
+      "theme_id": "THM-ai-energy-demand",
+      "weight": 0.3,
+      "notes": "Power limits and lead times"
+    }
+  ],
+  "source_field_mappings": {
+    "sec_edgar": {
+      "fields": [
+        "cik",
+        "company_name",
+        "ticker",
+        "form_type",
+        "filing_date",
+        "accession",
+        "filing_url",
+        "section",
+        "excerpt"
+      ],
+      "mapping_rules": {
+        "company_id": "CMP-<ticker>",
+        "evidence.entity_type": "company",
+        "evidence.summary": "excerpt"
+      }
+    },
+    "macro_release": {
+      "fields": [
+        "series_id",
+        "indicator_name",
+        "observation_date",
+        "value",
+        "unit",
+        "frequency"
+      ],
+      "mapping_rules": {
+        "macro_indicator_id": "MAC-<slug>",
+        "signal.entity_type": "macro_indicator"
+      }
+    },
+    "market_data": {
+      "fields": [
+        "ticker",
+        "date",
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "mapping_rules": {
+        "company_id": "CMP-<ticker>",
+        "signal.entity_type": "company"
+      }
+    },
+    "news": {
+      "fields": [
+        "source_name",
+        "title",
+        "description",
+        "published_at",
+        "url"
+      ],
+      "mapping_rules": {
+        "evidence.entity_type": "theme_or_company",
+        "policy_event_id": "POL-<yyyymmdd>-<region>-<slug>"
+      }
+    }
+  },
+  "governance_rules": [
+    "seed_mappings_require_two_sources_before_confirmed",
+    "exposure_strength_updates_require_evidence_or_analyst_override",
+    "mapping_change_log_requires_prior_value_new_value_sources_reviewer"
+  ]
+}

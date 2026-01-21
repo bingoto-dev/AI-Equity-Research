@@ -43,7 +43,7 @@ Notes:
 | THM-ai-mlops | CMP-DATA | 0.5 | MLOps adoption metrics |
 | THM-ai-edge | CMP-AAPL | 0.5 | On-device inference features |
 | THM-ai-applications | CMP-META | 0.6 | AI feature usage and engagement impact |
-| THM-ai-regulatory-risk | CMP-ANY | 0.4 | Jurisdictional compliance exposure |
+| THM-ai-regulatory-risk | CMP-ADBE | 0.3 | EU/US AI regulation exposure surface |
 
 ## 4) Vertical ↔ Company (Seed Exposure Map)
 
@@ -137,3 +137,5 @@ Notes:
   - evidence sources
   - reviewer
 
+## 8) Machine-Readable Mapping
+- JSON: docs/spec/ONTOLOGY_MAPPINGS.json
