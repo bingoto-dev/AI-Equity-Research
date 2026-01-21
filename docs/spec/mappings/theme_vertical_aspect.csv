@@ -1,0 +1,12 @@
+theme_id,vertical_id,aspect_id,rationale
+THM-ai-compute,VRT-compute-semiconductors,ASP-compute-efficiency,Perf per watt and scaling constraints
+THM-ai-compute,VRT-networking-interconnect,ASP-capital-intensity,Cluster capex and networking bottlenecks
+THM-ai-infrastructure,VRT-hyperscalers-cloud,ASP-inference-cost,Unit economics of AI workloads
+THM-ai-infrastructure,VRT-data-platforms,ASP-data-quality,Data pipelines as core input
+THM-ai-foundation-models,VRT-model-providers,ASP-model-performance,Frontier model progress
+THM-ai-mlops,VRT-mlops-tooling,ASP-distribution,Deployment and lifecycle tooling
+THM-ai-edge,VRT-edge-devices,ASP-compute-efficiency,On-device inference constraints
+THM-ai-applications,VRT-applications,ASP-competitive-moat,Workflow lock-in and data flywheel
+THM-ai-regulatory-risk,VRT-cybersecurity-safety,ASP-regulation-policy,Policy headwinds or tailwinds
+THM-ai-capex-cycle,VRT-hyperscalers-cloud,ASP-capital-intensity,Hyperscaler capex cycles
+THM-ai-energy-demand,VRT-compute-semiconductors,ASP-supply-chain-constraints,Power limits and lead times

@@ -1,0 +1,7 @@
+aspect_id,theme_id,weight,notes
+ASP-compute-efficiency,THM-ai-compute,0.35,Perf per watt drives scaling
+ASP-inference-cost,THM-ai-infrastructure,0.25,Unit economics gating adoption
+ASP-data-quality,THM-ai-infrastructure,0.2,Data gravity limits
+ASP-regulation-policy,THM-ai-regulatory-risk,0.5,Policy risk dominates
+ASP-capital-intensity,THM-ai-capex-cycle,0.4,Capex cycles drive supply
+ASP-supply-chain-constraints,THM-ai-energy-demand,0.3,Power limits and lead times

@@ -1,0 +1,10 @@
+vertical_id,company_id,exposure_strength,evidence_required
+VRT-compute-semiconductors,CMP-NVDA,0.9,Datacenter GPU share and pricing power
+VRT-compute-semiconductors,CMP-TSM,0.8,AI node demand and capacity
+VRT-networking-interconnect,CMP-AVGO,0.6,Networking silicon demand
+VRT-hyperscalers-cloud,CMP-MSFT,0.8,AI capex and utilization
+VRT-hyperscalers-cloud,CMP-AMZN,0.7,AI service revenue mix
+VRT-model-providers,CMP-OPENAI,0.8,Model launches and usage
+VRT-mlops-tooling,CMP-SNOW,0.5,Tool adoption and enterprise spend
+VRT-edge-devices,CMP-AAPL,0.6,On-device AI feature rollout
+VRT-applications,CMP-ADBE,0.6,AI feature monetization

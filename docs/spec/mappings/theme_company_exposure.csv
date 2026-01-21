@@ -1,0 +1,12 @@
+theme_id,company_id,exposure_strength,evidence_required
+THM-ai-compute,CMP-NVDA,0.9,"GPU revenue mix, datacenter segment growth"
+THM-ai-compute,CMP-AMD,0.6,"AI accelerator roadmap, DC revenue split"
+THM-ai-compute,CMP-TSM,0.8,Advanced node utilization and AI demand
+THM-ai-compute,CMP-ASML,0.7,EUV demand and foundry capex signals
+THM-ai-infrastructure,CMP-MSFT,0.8,Azure AI workload share and capex
+THM-ai-infrastructure,CMP-AMZN,0.7,AWS AI workload growth
+THM-ai-infrastructure,CMP-GOOGL,0.7,GCP AI workload growth
+THM-ai-foundation-models,CMP-OPENAI,0.8,Model releases and usage metrics
+THM-ai-mlops,CMP-SNOW,0.5,MLOps adoption metrics
+THM-ai-edge,CMP-AAPL,0.5,On-device inference features
+THM-ai-applications,CMP-META,0.6,AI feature usage and engagement impact
