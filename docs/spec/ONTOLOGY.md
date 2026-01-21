@@ -113,3 +113,5 @@ Provide a stable, versioned taxonomy for themes, verticals, aspects, and entitie
   - updated theme mappings
   - memo backfill where impacted
 
+## 11) Mappings
+- Seed mappings and source field mappings are maintained in: docs/spec/ONTOLOGY_MAPPINGS.md
