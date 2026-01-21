@@ -57,11 +57,8 @@
       margin: 0;
     }
     li {
-      padding: 10px 0;
+      padding: 0;
       border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-      display: flex;
-      justify-content: space-between;
-      gap: 16px;
     }
     li:last-child {
       border-bottom: none;
@@ -77,11 +74,16 @@
       border-radius: 999px;
       font-size: 12px;
     }
-    .memo-list a {
+    .memo-link {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 12px 0;
+      cursor: pointer;
       color: var(--text);
       text-decoration: none;
     }
-    .memo-list a:hover {
+    .memo-link:hover {
       color: var(--accent);
     }
     .muted {
@@ -131,11 +133,13 @@
       <ul class="memo-list">
         {% for memo in memos %}
         <li>
-          <div>
-            <a href="{{ memo.link }}">{{ memo.theme_id }}</a>
-            <div class="muted">{{ memo.summary }}</div>
-          </div>
-          <div class="score">{{ "%.2f"|format(memo.aggregate_score) }}</div>
+          <a class="memo-link" href="{{ memo.link }}">
+            <div>
+              <div>{{ memo.theme_id }}</div>
+              <div class="muted">{{ memo.summary }}</div>
+            </div>
+            <div class="score">{{ "%.2f"|format(memo.aggregate_score) }}</div>
+          </a>
         </li>
         {% endfor %}
       </ul>
